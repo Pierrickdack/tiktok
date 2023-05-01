@@ -59,27 +59,29 @@ class _LogupPageState extends State<LogupPage> {
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _userImg(),
-            _nameApp(),
-            const SizedBox(height: 50),
-            _inputField("username", _usernameController),
-            const SizedBox(height: 20),
-            _inputField("usersurname", _usersurnameController),
-            const SizedBox(height: 20),
-            _inputField("email", _emailController),
-            const SizedBox(height: 20),
-            _inputField("Password", _passwordController, isPassword: true),
-            const SizedBox(height: 50),
-            _loginBtn(),
-            const SizedBox(height: 20),
-            _extraText(),
-            /*const SizedBox(height: 20),
-             _signinGgle(),
-            const SizedBox(height: 10), */
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _userImg(),
+              _nameApp(),
+              const SizedBox(height: 50),
+              _inputField("username", _usernameController),
+              const SizedBox(height: 20),
+              _inputField("usersurname", _usersurnameController),
+              const SizedBox(height: 20),
+              _inputField("email", _emailController),
+              const SizedBox(height: 20),
+              _inputField("Password", _passwordController, isPassword: true),
+              const SizedBox(height: 50),
+              _loginBtn(),
+              const SizedBox(height: 20),
+              _extraText(),
+              /*const SizedBox(height: 20),
+               _signinGgle(),
+              const SizedBox(height: 10), */
+            ],
+          ),
         ),
       ),
     );

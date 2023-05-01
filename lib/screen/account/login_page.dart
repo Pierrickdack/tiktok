@@ -56,23 +56,25 @@ class _LoginPageState extends State<LoginPage> {
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _icon(),
-            _nameApp(),
-            const SizedBox(height: 50),
-            _inputField("Username", _emailController),
-            const SizedBox(height: 20),
-            _inputField("Password", _passwordController, isPassword: true),
-            const SizedBox(height: 50),
-            _loginBtn(),
-            const SizedBox(height: 20),
-            _extraText(),
-            const SizedBox(height: 20),
-            _signinGgle(),
-            const SizedBox(height: 10),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _icon(),
+              _nameApp(),
+              const SizedBox(height: 50),
+              _inputField("Username", _emailController),
+              const SizedBox(height: 20),
+              _inputField("Password", _passwordController, isPassword: true),
+              const SizedBox(height: 50),
+              _loginBtn(),
+              const SizedBox(height: 20),
+              _extraText(),
+              const SizedBox(height: 20),
+              _signinGgle(),
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );
