@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:tiktok/screen/widgets/circle_animation.dart';
+//import 'package:tiktok/screen/widgets/video_player_item.dart';
 
 class HoomePage extends StatefulWidget {
   const HoomePage({Key? key}) : super(key: key);
+  
 
   @override
   State<HoomePage> createState() => _HoomePageState();
 }
 
 class _HoomePageState extends State<HoomePage> {
-  TextEditingController typeController = new TextEditingController();TextEditingController orderController = new TextEditingController();
+  TextEditingController typeController = new TextEditingController();
+  TextEditingController orderController = new TextEditingController();
 
   List<String> typeVideo = [
     "Drôle",
@@ -29,13 +33,185 @@ class _HoomePageState extends State<HoomePage> {
   bool displayTypeVideo = false;
   bool displayOrderVideo = false;
 
+  //Profile
+  buildProfile(String profilePhoto){
+    return SizedBox(
+      width: 50,
+      height: 60,
+      child: Stack(
+        children: [
+          Positioned(
+            left: 5,
+            child: Container(
+              width: 50,
+              height: 50,
+              padding: const EdgeInsets.all(1),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image(
+                  image: NetworkImage(profilePhoto),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  buildMusicAlbum(String profilePhoto) {
+    return SizedBox(
+      width: 60,
+      height: 60,
+      child: Column(
+        children: [
+          Container(
+              padding: EdgeInsets.all(11),
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      Colors.grey,
+                      Colors.white,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(25)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image(
+                  image: NetworkImage(profilePhoto),
+                  fit: BoxFit.cover,
+                ),
+              ))
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       /* appBar: AppBar(
         title: Text("Welcome on TikTok !"),
       ), */
-      body: content(),
+      body: PageView.builder(
+        //itemCount: ,
+        controller: PageController(initialPage: 0, viewportFraction: 1),
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, index){
+          return Stack(
+            children: [
+              //VideoPlayerItem(videoUrl: data.videoUrl,),
+              Column(
+                children: [
+                  const SizedBox(height: 100,),
+                  Expanded(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Expanded(child: Container(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                'Username',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'Description',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.music_note,
+                                    size: 15,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    'Username',
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        ),
+                        Container(
+                          width: 100,
+                          margin: EdgeInsets.only(
+                            top: size.height/5,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              buildProfile('string url'),
+                              Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      
+                                    },
+                                    child: Icon(
+                                      Icons.favorite,
+                                      size: 40,
+                                      color: Colors.redAccent,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 7),
+                                  Text("2,2300"),
+                                  InkWell(
+                                    onTap: () {
+                                      
+                                    },
+                                    child: Icon(
+                                      Icons.comment,
+                                      size: 40,
+                                      color: Colors.redAccent,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 7),
+                                  Text("2,2300"),
+                                ],
+                              ),
+                              CircleAnimation(child: buildMusicAlbum('profile photo'),),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ))
+                  ],
+                ),
+              ],
+          );
+        }
+      ),
+       //content(),
     );
   }
 
@@ -44,9 +220,9 @@ class _HoomePageState extends State<HoomePage> {
       child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topRight,
+            begin: Alignment.topCenter,
             //end: Alignment.center,
-            end: Alignment.topLeft,
+            end: Alignment.bottomCenter,
             colors: [
               Color.fromARGB(255, 26, 194, 194),
               Colors.redAccent,
@@ -66,7 +242,13 @@ class _HoomePageState extends State<HoomePage> {
                 children: [
                   Column(
                     children: [
-                      Text("Category"),
+                      Text(
+                        "Category",
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.white
+                        )
+                      ),
                       inputField("Category", typeController),
                       displayTypeVideo 
                         ? selectionField("Category", typeController)
@@ -78,7 +260,13 @@ class _HoomePageState extends State<HoomePage> {
                   ),
                   Column(
                     children: [
-                      Text("Order by"),
+                      Text(
+                        "Order by",
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.white
+                        )
+                      ),
                       inputField("Order by", orderController),
                       displayOrderVideo
                       ? selectionField("Order by", orderController)
@@ -100,7 +288,7 @@ class _HoomePageState extends State<HoomePage> {
       height: 40,
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color.fromARGB(255, 105, 95, 95),
+          color: Color.fromARGB(255, 255, 255, 255),
         ),
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(6),
@@ -122,7 +310,10 @@ class _HoomePageState extends State<HoomePage> {
                 }
               });
             },
-            child: Icon(Icons.arrow_downward_rounded),
+            child: Icon(
+              Icons.arrow_downward_rounded,
+              color: Colors.white,
+            ),
           ),
         ),
       ),

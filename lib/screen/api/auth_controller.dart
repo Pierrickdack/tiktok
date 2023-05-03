@@ -1,36 +1,34 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
-import 'package:tiktok/constants.dart';
-import 'package:tiktok/screen/account/login_page.dart';
-
-import 'package:tiktok/screen/house_page.dart';
-import 'package:tiktok/screen/models/user.dart' as model;
 import 'package:image_picker/image_picker.dart';
+import 'package:tiktok/constants.dart';
+import 'package:tiktok/screen/models/user.dart' as model;
+import 'package:tiktok/screen/account/login_page.dart';
+import 'package:tiktok/screen/house_page.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
-
   late Rx<User?> _user;
   late Rx<File?> _pickedImage;
 
-  File? get pathPhoto => _pickedImage.value;
+  File? get profilePhoto => _pickedImage.value;
+  User get user => _user.value!;
+
+  File? get pathPhoto => null;
 
   @override
   void onReady() {
     super.onReady();
-
     _user = Rx<User?>(firebaseAuth.currentUser);
     _user.bindStream(firebaseAuth.authStateChanges());
-
     ever(_user, _setInitialScreen);
   }
 
   _setInitialScreen(User? user) {
     if (user == null) {
-      Get.offAll(() => LoginPage());
+      Get.offAll(() => const LoginPage());
     } else {
       Get.offAll(() => const HousePage());
     }
@@ -40,36 +38,38 @@ class AuthController extends GetxController {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
-      Get.snackbar('Profile Picture', 'Selection Succed');
+      Get.snackbar('Profile Picture',
+          'You have successfully selected your profile picture!');
     }
     _pickedImage = Rx<File?>(File(pickedImage!.path));
   }
 
-  //upload to firebase storage
+  // upload to firebase storage
   Future<String> _uploadToStorage(File image) async {
     Reference ref = firebaseStorage
         .ref()
         .child('profilePics')
         .child(firebaseAuth.currentUser!.uid);
+
     UploadTask uploadTask = ref.putFile(image);
     TaskSnapshot snap = await uploadTask;
     String downloadUrl = await snap.ref.getDownloadURL();
     return downloadUrl;
   }
 
-  //register the user
+  // registering the user
   void registerUser(
       String username, String usersurname, String email, String password, File? image) async {
     try {
-      if (username.isNotEmpty && 
-          usersurname.isNotEmpty &&
+      if (username.isNotEmpty &&
           email.isNotEmpty &&
           password.isNotEmpty &&
           image != null) {
-        //save user to our auth and firebase firestore
+        // save out user to our ath and firebase firestore
         UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
-            email: email, password: password);
-
+          email: email,
+          password: password,
+        );
         String downloadUrl = await _uploadToStorage(image);
         model.User user = model.User(
           nom: username,
@@ -100,21 +100,22 @@ class AuthController extends GetxController {
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
         await firebaseAuth.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        print('Login successfully !');
+            email: email, password: password);
       } else {
         Get.snackbar(
           'Error Logging in',
-          'Please enter correct informations',
+          'Please enter all the fields',
         );
       }
     } catch (e) {
       Get.snackbar(
-        'Error Logging in',
-        'Please enter correct informations',
+        'Error Loggin gin',
+        e.toString(),
       );
     }
+  }
+
+  void signOut() async {
+    await firebaseAuth.signOut();
   }
 }

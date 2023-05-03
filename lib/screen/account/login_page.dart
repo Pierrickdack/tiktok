@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants.dart';
+import 'package:tiktok/screen/account/logup_page.dart';
 import 'package:tiktok/screen/api/google_signin_api.dart';
 import 'package:tiktok/screen/house_page.dart';
 
@@ -41,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
           end: Alignment.topLeft,
           colors: [
             Color.fromARGB(255, 26, 194, 194),
+            Color.fromARGB(255, 172, 165, 165),
             Colors.redAccent,
           ],
         ),
@@ -153,9 +155,11 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(fontSize: 16, color: Colors.white),
         ),
         InkWell(
-          onTap: () {
-            print('Navigating user');
-          },
+          onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const LogupPage(),
+                    ),
+                  ),
           child: Text(
             '  Sign up',
             textAlign: TextAlign.center,

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants.dart';
+import 'package:tiktok/screen/account/login_page.dart';
 import 'package:tiktok/screen/api/google_signin_api.dart';
 
 class LogupPage extends StatefulWidget {
@@ -43,6 +44,7 @@ class _LogupPageState extends State<LogupPage> {
           end: Alignment.topLeft,
           colors: [
             Color.fromARGB(255, 26, 194, 194),
+            Color.fromARGB(255, 172, 165, 165),
             Colors.redAccent,
           ],
         ),
@@ -55,6 +57,7 @@ class _LogupPageState extends State<LogupPage> {
     );
   }
 
+
   Widget _page() {
     return Padding(
       padding: const EdgeInsets.all(32.0),
@@ -66,11 +69,11 @@ class _LogupPageState extends State<LogupPage> {
               _userImg(),
               _nameApp(),
               const SizedBox(height: 50),
-              _inputField("username", _usernameController),
+              _inputField("Name", _usernameController),
               const SizedBox(height: 20),
-              _inputField("usersurname", _usersurnameController),
+              _inputField("Surname", _usersurnameController),
               const SizedBox(height: 20),
-              _inputField("email", _emailController),
+              _inputField("Email", _emailController),
               const SizedBox(height: 20),
               _inputField("Password", _passwordController, isPassword: true),
               const SizedBox(height: 50),
@@ -102,7 +105,7 @@ class _LogupPageState extends State<LogupPage> {
         radius: 64,
         backgroundImage: NetworkImage(
             'https://www.pngitem.com/middle/wxwbiT_user-hd-png-download/'),
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 226, 223, 223),
       ),
       Positioned(
         bottom: -10,
@@ -183,9 +186,11 @@ class _LogupPageState extends State<LogupPage> {
           style: TextStyle(fontSize: 16, color: Colors.white),
         ),
         InkWell(
-          onTap: () {
-            print('Navigating user');
-          },
+          onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  ),
           child: Text(
             '  Sign in',
             textAlign: TextAlign.center,

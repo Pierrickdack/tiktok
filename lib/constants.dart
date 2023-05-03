@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok/screen/add/add_video_page.dart';
-import 'package:tiktok/screen/house/hoome_page.dart';
 import 'package:tiktok/screen/api/auth_controller.dart';
+import 'package:tiktok/screen/house/hoome_page.dart';
 
-const pages = [
+List pages = [
   HoomePage(),
-  AddVideoPage(), //1:18:13
+  const AddVideoPage(),
   Text('Profile Page'),
 ];
 
@@ -20,3 +20,10 @@ var firestore = FirebaseFirestore.instance;
 
 //controller
 var authController = AuthController.instance;
+
+
+// COLORS
+const backgroundColor = Colors.black;
+var buttonColor = Colors.red[400];
+const borderColor = Colors.grey;
+
