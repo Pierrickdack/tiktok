@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tiktok/screen/account/login_page.dart';
+import 'package:tiktok/screen/account/login_screen.dart';
 import 'package:tiktok/screen/house_page.dart';
 
 class MainPage extends StatelessWidget {
@@ -15,7 +15,7 @@ class MainPage extends StatelessWidget {
           if (snapshot.hasData) {
             return HousePage();
           } else {
-            return LoginPage();
+            return LoginScreen();
           }
         },
       ),

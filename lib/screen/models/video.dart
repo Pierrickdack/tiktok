@@ -5,7 +5,7 @@ class Video {
   String uid;
   String id;
   List likes;
-  int commentCount;
+  //int commentCount;
   //int shareCount;
   String songName;
   String caption;
@@ -18,7 +18,7 @@ class Video {
     required this.uid,
     required this.id,
     required this.likes,
-    required this.commentCount,
+    //required this.commentCount,
     //required this.shareCount,
     required this.songName,
     required this.caption,
@@ -30,10 +30,10 @@ class Video {
   Map<String, dynamic> toJson() => {
         "username": username,
         "uid": uid,
-        "profilePhoto": profilePhoto,
+        "pathPhoto": profilePhoto,
         "id": id,
         "likes": likes,
-        "commentCount": commentCount,
+        //"commentCount": commentCount,
         //"shareCount": shareCount,
         "songName": songName,
         "caption": caption,
@@ -49,7 +49,7 @@ class Video {
       uid: snapshot['uid'],
       id: snapshot['id'],
       likes: snapshot['likes'],
-      commentCount: snapshot['commentCount'],
+      //commentCount: snapshot['commentCount'],
       //shareCount: snapshot['shareCount'],
       songName: snapshot['songName'],
       caption: snapshot['caption'],

@@ -80,18 +80,19 @@ class AddVideoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          //end: Alignment.center,
-          end: Alignment.topLeft,
-          colors: [
-            Color.fromARGB(255, 26, 194, 194),
-            Colors.redAccent,
-          ],
-        ),
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topRight,
+        //end: Alignment.center,
+        end: Alignment.topLeft,
+        colors: [
+          Color.fromARGB(255, 26, 194, 194),
+          Color.fromARGB(255, 172, 165, 165),
+          Colors.redAccent,
+        ],
       ),
+    );
+    return Container(
       child: Scaffold(
         body: Center(
           child: InkWell(
@@ -99,10 +100,10 @@ class AddVideoPage extends StatelessWidget {
             child: Container(
               width: 190,
               height: 50,
-              decoration: BoxDecoration(color: Colors.redAccent),
+              decoration: BoxDecoration(color: Color.fromARGB(255, 56, 201, 116)),
               child: const Center(
                 child: Text(
-                  'Add Video',
+                  'Add a new Video',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.black,

@@ -12,7 +12,7 @@ class VideoController extends GetxController {
   void onInit() {
     super.onInit();
     _videoList.bindStream(
-        firestore.collection('post').snapshots().map((QuerySnapshot query) {
+        firestore.collection('videos').snapshots().map((QuerySnapshot query) {
       List<Video> retVal = [];
       for (var element in query.docs) {
         retVal.add(
@@ -24,10 +24,10 @@ class VideoController extends GetxController {
   }
 
   likeVideo(String id) async {
-    DocumentSnapshot doc = await firestore.collection('post').doc(id).get();
+    DocumentSnapshot doc = await firestore.collection('videos').doc(id).get();
     var uid = authController.user.uid;
     if ((doc.data()! as dynamic)['likes'].contains(uid)) {
-      await firestore.collection('post').doc(id).update({
+      await firestore.collection('videos').doc(id).update({
         'likes': FieldValue.arrayRemove([uid]),
       });
     } else {

@@ -1,37 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tiktok/constants.dart';
+import 'package:tiktok/screen/api/video_controller.dart';
 import 'package:tiktok/screen/widgets/circle_animation.dart';
+import 'package:tiktok/screen/widgets/video_player_iten.dart';
 //import 'package:tiktok/screen/widgets/video_player_item.dart';
 
 class HoomePage extends StatefulWidget {
   const HoomePage({Key? key}) : super(key: key);
   
-
   @override
   State<HoomePage> createState() => _HoomePageState();
 }
 
 class _HoomePageState extends State<HoomePage> {
-  TextEditingController typeController = new TextEditingController();
-  TextEditingController orderController = new TextEditingController();
 
-  List<String> typeVideo = [
-    "Drôle",
-    "Drame",
-    "News",
-    "Song",
-  ];
-
-  List<String> orderVideo = [
-    "Recent",
-    "3 days ago",
-    "5 days ago",
-    "One week ago",
-    "Two weeks ago",
-    "One month ago",
-  ];
-
-  bool displayTypeVideo = false;
-  bool displayOrderVideo = false;
+  final VideoController videoController = Get.put(VideoController());
 
   //Profile
   buildProfile(String profilePhoto){
@@ -103,13 +87,14 @@ class _HoomePageState extends State<HoomePage> {
         title: Text("Welcome on TikTok !"),
       ), */
       body: PageView.builder(
-        //itemCount: ,
+        itemCount: videoController.videoList.length,
         controller: PageController(initialPage: 0, viewportFraction: 1),
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index){
+          final data = videoController.videoList[index];
           return Stack(
             children: [
-              //VideoPlayerItem(videoUrl: data.videoUrl,),
+              VideoPlayerItem(videoUrl: data.videoUrl,),
               Column(
                 children: [
                   const SizedBox(height: 100,),
@@ -126,7 +111,7 @@ class _HoomePageState extends State<HoomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                'Username',
+                                data.username,
                                 style: const TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,
@@ -134,7 +119,7 @@ class _HoomePageState extends State<HoomePage> {
                                 ),
                               ),
                               Text(
-                                'Description',
+                                data.caption,
                                 style: const TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,
@@ -149,7 +134,7 @@ class _HoomePageState extends State<HoomePage> {
                                     color: Colors.white,
                                   ),
                                   Text(
-                                    'Username',
+                                    data.songName,
                                     style: const TextStyle(
                                       fontSize: 15,
                                       color: Colors.white,
@@ -170,17 +155,15 @@ class _HoomePageState extends State<HoomePage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              buildProfile('string url'),
+                              buildProfile(data.profilePhoto),
                               Column(
                                 children: [
                                   InkWell(
-                                    onTap: () {
-                                      
-                                    },
+                                    onTap: () => videoController.likeVideo(data.id),
                                     child: Icon(
                                       Icons.favorite,
                                       size: 40,
-                                      color: Colors.redAccent,
+                                      color: data.likes.contains(authController.user.uid) ? Colors.redAccent : Colors.white,
                                     ),
                                   ),
                                   const SizedBox(height: 7),
@@ -212,156 +195,6 @@ class _HoomePageState extends State<HoomePage> {
         }
       ),
        //content(),
-    );
-  }
-
-  Widget content() {
-    return Center(
-      child: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            //end: Alignment.center,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 26, 194, 194),
-              Colors.redAccent,
-            ],
-          ),
-        ),
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 70,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        "Category",
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white
-                        )
-                      ),
-                      inputField("Category", typeController),
-                      displayTypeVideo 
-                        ? selectionField("Category", typeController)
-                        : SizedBox(),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 40,
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "Order by",
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white
-                        )
-                      ),
-                      inputField("Order by", orderController),
-                      displayOrderVideo
-                      ? selectionField("Order by", orderController)
-                      : SizedBox(),
-                    ],
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget inputField(String type, TextEditingController controller) {
-    return Container(
-      width: 130,
-      height: 40,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Color.fromARGB(255, 255, 255, 255),
-        ),
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: TextField(
-        controller: TextEditingController(),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          suffixIcon: GestureDetector(
-            onTap: () {
-              setState(() {
-                switch (type) {
-                  case "Category":
-                    displayTypeVideo = !displayTypeVideo;
-                    break;
-                  case "Order by":
-                    displayOrderVideo = !displayOrderVideo;
-                    break;
-                }
-              });
-            },
-            child: Icon(
-              Icons.arrow_downward_rounded,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget selectionField(String type, TextEditingController controller) {
-    return Container(
-      height: 200,
-      width: 130,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(9),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 1),
-            )
-          ]),
-      child: ListView.builder(
-          itemCount: type == "Category"
-            ? typeVideo.length
-            : orderVideo.length,
-          itemBuilder: ((context, index) {
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  switch (type) {
-                    case "Category":
-                      controller.text = typeVideo[index];
-                      break;
-                    case "Order by":
-                      controller.text = orderVideo[index];
-                      break;
-                  }
-                });
-              },
-              child: ListTile(
-                title: Text(type=="Category"
-                  ? typeVideo[index]
-                  : orderVideo[index]
-                ),
-              ),
-            );
-          })
-        ),
     );
   }
 }

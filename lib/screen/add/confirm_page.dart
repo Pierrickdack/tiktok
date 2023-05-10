@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tiktok/screen/api/upload_test.dart';
+import 'package:tiktok/screen/api/upload_video_controller.dart';
 //import 'package:tiktok/controllers/upload_video_controller.dart';
 import 'package:tiktok/screen/widgets/text_input_field.dart';
 //import 'package:tiktok/views/widgets/text_input_field.dart';
@@ -21,11 +23,11 @@ class ConfirmPage extends StatefulWidget {
 
 class _ConfirmPageState extends State<ConfirmPage> {
   late VideoPlayerController controller;
-  TextEditingController _songController = TextEditingController();
-  TextEditingController _captionController = TextEditingController();
+  final TextEditingController _songController = TextEditingController();
+  final TextEditingController _captionController = TextEditingController();
 
-  //UploadVideoController uploadVideoController =
-      //Get.put(UploadVideoController());
+  UploadVideoController uploadVideoController =
+      Get.put(UploadVideoController());
 
   @override
   void initState() {
@@ -84,7 +86,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                     width: MediaQuery.of(context).size.width - 20,
                     child: TextInputField(
                       controller: _captionController,
-                      labelText: 'Caption',
+                      labelText: 'Description',
                       icon: Icons.closed_caption,
                     ),
                   ),
@@ -92,10 +94,21 @@ class _ConfirmPageState extends State<ConfirmPage> {
                     height: 10,
                   ),
                   ElevatedButton(
-                       onPressed: () {},
+                      onPressed: () => uploadVideoController.uploadVideo(
+                        _songController.text,
+                        _captionController.text,
+                        widget.videoPath
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.black,
+                        shape: const StadiumBorder(),
+                        backgroundColor: const  Color.fromARGB(255, 26, 194, 194),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                      ),
                       child: const Text(
-                        'Upload  !',
+                        'Post',
                         style: TextStyle(
+                          //backgroundColor: const Color.fromARGB(255, 26, 194, 194),
                           fontSize: 20,
                           color: Colors.white,
                         ),

@@ -34,7 +34,7 @@ class _HousePageState extends State<HousePage> {
             label: '',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person, size: 30), label: 'Profile'),
+              icon: Icon(Icons.person_rounded, size: 30), label: 'Profile'),
         ],
       ),
       body: pages[pageIdx],
