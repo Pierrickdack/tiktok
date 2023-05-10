@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tiktok/constants.dart';
+import 'package:tiktok/screen/add/comment_screen.dart';
 import 'package:tiktok/screen/api/video_controller.dart';
 import 'package:tiktok/screen/widgets/circle_animation.dart';
-import 'package:tiktok/screen/widgets/video_player_iten.dart';
 //import 'package:tiktok/screen/widgets/video_player_item.dart';
 
 class HoomePage extends StatefulWidget {
   const HoomePage({Key? key}) : super(key: key);
   
+
   @override
   State<HoomePage> createState() => _HoomePageState();
 }
 
 class _HoomePageState extends State<HoomePage> {
+
+  int _likes = 0;
+  List<String> _comments = [];
+  var data;
+
+  void _incrementLikeCount() {
+    setState(() {
+      _likes++;
+    });
+  }
 
   final VideoController videoController = Get.put(VideoController());
 
@@ -87,14 +98,14 @@ class _HoomePageState extends State<HoomePage> {
         title: Text("Welcome on TikTok !"),
       ), */
       body: PageView.builder(
-        itemCount: videoController.videoList.length,
+        //itemCount: ,
         controller: PageController(initialPage: 0, viewportFraction: 1),
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index){
-          final data = videoController.videoList[index];
+          //final data = videoController.videoList[index];
           return Stack(
             children: [
-              VideoPlayerItem(videoUrl: data.videoUrl,),
+              //VideoPlayerItem(videoUrl: data.videoUrl,),
               Column(
                 children: [
                   const SizedBox(height: 100,),
@@ -111,7 +122,7 @@ class _HoomePageState extends State<HoomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                data.username,
+                                'Username',
                                 style: const TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,
@@ -119,7 +130,7 @@ class _HoomePageState extends State<HoomePage> {
                                 ),
                               ),
                               Text(
-                                data.caption,
+                                'Description',
                                 style: const TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,
@@ -134,7 +145,7 @@ class _HoomePageState extends State<HoomePage> {
                                     color: Colors.white,
                                   ),
                                   Text(
-                                    data.songName,
+                                    'Username',
                                     style: const TextStyle(
                                       fontSize: 15,
                                       color: Colors.white,
@@ -155,23 +166,28 @@ class _HoomePageState extends State<HoomePage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              buildProfile(data.profilePhoto),
+                              buildProfile('string url'),
                               Column(
                                 children: [
+                                  Text('$_likes likes'),
                                   InkWell(
-                                    onTap: () => videoController.likeVideo(data.id),
+                                    onTap: () => _incrementLikeCount(),
                                     child: Icon(
                                       Icons.favorite,
                                       size: 40,
-                                      color: data.likes.contains(authController.user.uid) ? Colors.redAccent : Colors.white,
+                                      //color: data.likes.contains(authController.user.uid) ? Colors.redAccent : Colors.white,
                                     ),
                                   ),
                                   const SizedBox(height: 7),
-                                  Text("2,2300"),
+                                  Text('Comment'),
                                   InkWell(
-                                    onTap: () {
-                                      
-                                    },
+                                     onTap: () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => CommentScreen(
+                                            id: 'fr',
+                                          ), 
+                                        ),
+                                        ),
                                     child: Icon(
                                       Icons.comment,
                                       size: 40,

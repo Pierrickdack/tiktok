@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tiktok/screen/api/upload_test.dart';
 import 'package:tiktok/screen/api/upload_video_controller.dart';
 //import 'package:tiktok/controllers/upload_video_controller.dart';
 import 'package:tiktok/screen/widgets/text_input_field.dart';
