@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tiktok/controller/auth_controller.dart';
+import 'package:tiktok/controller/auth_controller.dart'; 
 import 'package:tiktok/controller/video_controller.dart';
 import 'package:tiktok/widgets/circle_animation.dart';
 
